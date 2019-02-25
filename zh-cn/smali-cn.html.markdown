@@ -17,6 +17,11 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
 
 # 单行注释
 
+###########################
+# 第一个HelloWorld程序
+###########################
+
+
 # 类名不需要和文件名一样(HelloSmali.smali)
 .class public LHelloSmali;
 # 一个Smali实现的HelloWorld程序
@@ -47,4 +52,330 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     # return-void指令对于方法必选
     return-void
 .end method
+
+
+###########################
+# 基本类型变量
+###########################
+.method public static main([Ljava/lang/String;)V
+    # 总共用了7个寄存器
+    .registers 7
+
+    .prologue
+    
+    const/16 v3, 0x64
+
+    const/4 v5, 0x0
+
+    const/4 v4, 0x1
+
+    .line 5
+    .line 6
+    # byte型变量 byte fooByte = 100;
+    # System.out.println(fooByte);  
+    sget-object v0, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    invoke-virtual {v0, v3}, Ljava/io/PrintStream;->println(I)V
+
+    .line 8
+    # 短整型 short fooShort = 10000;
+    const/16 v0, 0x2710
+
+    .line 9
+    # System.out.println(fooShort);  
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(I)V
+
+    .line 12
+    # 整型  int fooInt = 1;
+    # System.out.println(fooInt);  
+    sget-object v0, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    invoke-virtual {v0, v4}, Ljava/io/PrintStream;->println(I)V
+
+    .line 14
+    # 长整型 long fooLong = 100000L;
+    # System.out.println(fooLong);  
+    const-wide/32 v0, 0x186a0   
+
+    .line 15
+    sget-object v2, Ljava/lang/System;->out:Ljava/io/PrintStream;
+    # long占v0,v1两个32位寄存器
+    invoke-virtual {v2, v0, v1}, Ljava/io/PrintStream;->println(J)V
+
+    .line 17
+    # 单精度浮点数 float fooFloat = 234.5f;
+    # System.out.println(fooFloat);      
+    const v0, 0x436a8000    # 234.5f
+
+    .line 18
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(F)V
+
+    .line 20
+    # 双精度浮点数占64位（2个32位寄存器）double fooDouble = 123.4;
+    # System.out.println(fooDouble);  
+    # 送 v0,v1两个寄存器
+    const-wide v0, 0x405ed9999999999aL    # 123.4
+
+    .line 21
+    sget-object v2, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    invoke-virtual {v2, v0, v1}, Ljava/io/PrintStream;->println(D)V
+
+    .line 24
+    # 1代表true 真 ：const/4 v4, 0x1
+    # boolean fooBoolean = true;
+    # System.out.println(fooBoolean);  
+    sget-object v0, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    invoke-virtual {v0, v4}, Ljava/io/PrintStream;->println(Z)V
+
+    .line 26
+    # 0代表false： const/4 v5, 0x0
+    # boolean barBoolean = false;
+    # System.out.println(barBoolean);  
+    sget-object v0, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    invoke-virtual {v0, v5}, Ljava/io/PrintStream;->println(Z)V
+
+    .line 28
+    const/16 v0, 0x41
+
+    .line 29
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(C)V
+
+    .line 32
+    sget-object v0, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    const/16 v1, 0x2329
+
+    invoke-virtual {v0, v1}, Ljava/io/PrintStream;->println(I)V
+
+    .line 34
+    const-string v0, "My String Is Here!"
+
+    .line 35
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 38
+    const/16 v0, 0xa
+
+    new-array v0, v0, [I
+
+    .line 39
+    new-array v0, v4, [Ljava/lang/String;
+
+    .line 40
+    new-array v0, v3, [Z
+
+    .line 42
+    const/4 v0, 0x3
+
+    new-array v0, v0, [I
+
+    fill-array-data v0, :array_118
+
+    .line 43
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "intArray @ 0: "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    aget v3, v0, v5
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 45
+    aput v4, v0, v4
+
+    .line 46
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "intArray @ 1: "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    aget v0, v0, v4
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 49
+    new-instance v0, Ljava/util/Scanner;
+
+    sget-object v1, Ljava/lang/System;->in:Ljava/io/InputStream;
+
+    invoke-direct {v0, v1}, Ljava/util/Scanner;-><init>(Ljava/io/InputStream;)V
+
+    .line 50
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    const-string v2, "Enter number 1: "
+
+    invoke-virtual {v1, v2}, Ljava/io/PrintStream;->print(Ljava/lang/String;)V
+
+    .line 51
+    invoke-virtual {v0}, Ljava/util/Scanner;->nextInt()I
+
+    move-result v1
+
+    .line 52
+    sget-object v2, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    const-string v3, "Enter number 2: "
+
+    invoke-virtual {v2, v3}, Ljava/io/PrintStream;->print(Ljava/lang/String;)V
+
+    .line 53
+    invoke-virtual {v0}, Ljava/util/Scanner;->nextInt()I
+
+    move-result v0
+
+    .line 54
+    sget-object v2, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "i1+i2 = "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    add-int v4, v1, v0
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 55
+    sget-object v2, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "i2-i1 = "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    sub-int v4, v0, v1
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 56
+    sget-object v2, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "i2*i1 = "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    mul-int v4, v0, v1
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 57
+    sget-object v2, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "i1/i2 = "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    div-int v0, v1, v0
+
+    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {v2, v0}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 60
+    return-void
+
+    .line 42
+    :array_118
+    .array-data 4
+        0x2328
+        0x3e8
+        0x539
+    .end array-data
+.end method
+
 ```
