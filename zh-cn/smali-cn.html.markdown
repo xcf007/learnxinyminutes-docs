@@ -398,4 +398,259 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     .end array-data
 .end method
 
+
+###########################
+# 控制语句
+###########################
+.method public static main([Ljava/lang/String;)V
+    .registers 8
+
+    .prologue
+    const/16 v6, 0x64
+
+    const/16 v5, 0xa
+
+    const/4 v0, 0x0
+
+    .line 6
+    # int j;
+    # Scanner scanner = new Scanner(System.in);
+    # j = scanner.nextInt();
+    new-instance v1, Ljava/util/Scanner;
+
+    sget-object v2, Ljava/lang/System;->in:Ljava/io/InputStream;
+
+    invoke-direct {v1, v2}, Ljava/util/Scanner;-><init>(Ljava/io/InputStream;)V
+
+    .line 7
+    invoke-virtual {v1}, Ljava/util/Scanner;->nextInt()I
+
+    move-result v1
+
+    .line 8
+    # 如果(v1)不等于(v5) 则跳转到标签:cond_1f处执行，否则执行该执行下一条指令
+    if-ne v1, v5, :cond_1f
+
+    .line 9
+    # 即： 如果(v1) == (v5)执行, J = 10
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    const-string v2, "I get printed"
+
+    invoke-virtual {v1, v2}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+    
+    # ===================================================================================================
+    #  while循环 :goto_19 START
+    # ===================================================================================================
+
+    :goto_19
+    move v1, v0
+
+    .line 17
+    # 如果 (v1) >= (v6) 
+    :goto_1a
+    if-ge v1, v6, :cond_31
+
+    .line 19
+    # (v1) = (v1) + 1
+    add-int/lit8 v1, v1, 0x1
+
+    goto :goto_1a
+    
+    # ===================================================================================================
+    #  while循环 :goto_19 END
+    # ===================================================================================================    
+
+
+    .line 10
+    # 如果(v1) < (v5)则跳转到:cond_29处执行
+    :cond_1f
+    if-le v1, v5, :cond_29
+
+    .line 11
+    # 如果 J > 10
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    const-string v2, "I don\'t"
+
+    invoke-virtual {v1, v2}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    goto :goto_19   # while循环 :goto_19 在3个if分支处都植入了
+
+    .line 13
+    # 如果 j < 10
+    :cond_29
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    const-string v2, "I also don\'t"
+
+    invoke-virtual {v1, v2}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+ 
+    goto :goto_19    # while循环 :goto_19 在3个if分支处都植入了
+
+    .line 21
+    # int fooWhile = 0;
+    # while(fooWhile < 100)
+    # {
+    #     fooWhile++;
+    # }
+    # System.out.println("fooWhile Value: " + fooWhile); 
+    :cond_31
+    sget-object v2, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "fooWhile Value: "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v2, v1}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+    
+    
+    # ===================================================================================================
+    #  do while循环 START
+    # ===================================================================================================
+    move v1, v0
+
+    .line 26
+    :cond_4a
+    add-int/lit8 v1, v1, 0x1
+
+    .line 27
+    # 如果 (v1) < (v6) 则继续 (v1) = (v1) + 1 操作，直到 （v1）== 100结束循环
+    if-lt v1, v6, :cond_4a
+
+    .line 28
+    # System.out.println("fooDoWhile Value: " + fooDoWhile);
+    sget-object v2, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "fooDoWhile Value: "
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v2, v1}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 31
+    :goto_66
+    if-ge v0, v5, :cond_6b
+
+    add-int/lit8 v0, v0, 0x1
+
+    goto :goto_66
+
+    .line 34
+    :cond_6b
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "fooFor Value: "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 36
+    const/4 v0, 0x3
+
+    .line 38
+    packed-switch v0, :pswitch_data_ac
+
+    .line 49
+    const-string v0, "Some other month"
+
+    .line 52
+    :goto_89
+    sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "Switch Case Result: "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
+
+    .line 53
+    return-void
+
+    .line 40
+    :pswitch_a2
+    const-string v0, "January"
+
+    goto :goto_89
+
+    .line 43
+    :pswitch_a5
+    const-string v0, "February"
+
+    goto :goto_89
+
+    .line 46
+    :pswitch_a8
+    const-string v0, "March"
+
+    goto :goto_89
+
+    .line 38
+    nop
+
+    :pswitch_data_ac
+    .packed-switch 0x1
+        :pswitch_a2
+        :pswitch_a5
+        :pswitch_a8
+    .end packed-switch
+.end method
+
 ```
