@@ -142,6 +142,7 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v0, v5}, Ljava/io/PrintStream;->println(Z)V
 
     .line 28
+    # unicode字符'A': char fooChar = 'A';
     const/16 v0, 0x41
 
     .line 29
@@ -150,13 +151,15 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(C)V
 
     .line 32
+    
     sget-object v0, Ljava/lang/System;->out:Ljava/io/PrintStream;
-
+    # final int HOURS_I_WORK_PER_WEEK = 9001;
     const/16 v1, 0x2329
 
     invoke-virtual {v0, v1}, Ljava/io/PrintStream;->println(I)V
 
     .line 34
+    # 字符串引用送v0 :  String fooString = "My String Is Here!";
     const-string v0, "My String Is Here!"
 
     .line 35
@@ -165,21 +168,28 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
 
     .line 38
+    # v0存数组大小10
     const/16 v0, 0xa
-
+    # 生成一个int型数组，大小10，数组引用送v0 (寄存器可覆写)
+    # int [] intArray = new int[10];
     new-array v0, v0, [I
 
     .line 39
+    # 数字大小1 重用v4:  const/4 v4, 0x1
+    # String [] stringArray = new String[1];
     new-array v0, v4, [Ljava/lang/String;
 
     .line 40
+    # 重用v3 ： 数组大小 100
+    # boolean [] booleanArray = new boolean[100];
     new-array v0, v3, [Z
 
     .line 42
+    # int [] anotherIntArray = {9000, 1000, 1337};
     const/4 v0, 0x3
-
+    
     new-array v0, v0, [I
-
+    # 静态初始化，填充数组
     fill-array-data v0, :array_118
 
     .line 43
@@ -194,7 +204,8 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
-
+    # System.out.println("intArray @ 0: " + anotherIntArray[0]);
+    # v3寄存器 = v0寄存器[v5寄存器]
     aget v3, v0, v5
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
@@ -208,9 +219,11 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v1, v2}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
 
     .line 45
+    # 数组元素赋值 anotherIntArray[1] = 1;
     aput v4, v0, v4
 
     .line 46
+    # System.out.println("intArray @ 1: " + anotherIntArray[1]);
     sget-object v1, Ljava/lang/System;->out:Ljava/io/PrintStream;
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -236,6 +249,7 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v1, v0}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
 
     .line 49
+    # Scanner sc = new Scanner(System.in);
     new-instance v0, Ljava/util/Scanner;
 
     sget-object v1, Ljava/lang/System;->in:Ljava/io/InputStream;
@@ -250,6 +264,7 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v1, v2}, Ljava/io/PrintStream;->print(Ljava/lang/String;)V
 
     .line 51
+    # i1 = sc.nextInt();
     invoke-virtual {v0}, Ljava/util/Scanner;->nextInt()I
 
     move-result v1
@@ -262,6 +277,7 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v2, v3}, Ljava/io/PrintStream;->print(Ljava/lang/String;)V
 
     .line 53
+    # i2 = sc.nextInt();
     invoke-virtual {v0}, Ljava/util/Scanner;->nextInt()I
 
     move-result v0
@@ -278,7 +294,7 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v3
-
+    # 加法运算指令： v4寄存器 <= v1寄存器的值 + v0寄存器的值
     add-int v4, v1, v0
 
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
@@ -303,7 +319,8 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v3
-
+    
+    # 减法运算指令： v4寄存器 <= v0寄存器的值 - v1寄存器的值
     sub-int v4, v0, v1
 
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
@@ -329,6 +346,7 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
 
     move-result-object v3
 
+    # 乘法运算指令： v4寄存器 <= v0寄存器的值 * v1寄存器的值
     mul-int v4, v0, v1
 
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
@@ -354,6 +372,7 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
 
     move-result-object v3
 
+    # 除法运算指令： v0寄存器 <= v1寄存器的值 / v0寄存器的值
     div-int v0, v1, v0
 
     invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
@@ -370,6 +389,7 @@ smali/baksmali是dex格式文件的汇编/反汇编器，dex格式由dalvik（An
     return-void
 
     .line 42
+    # 静态数据块
     :array_118
     .array-data 4
         0x2328
